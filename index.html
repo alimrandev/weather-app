@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1 class="display-5">Welcome to weather app</h1>
+        <p class="lead">
+          Now you can search weather of your city
+        </p>
+        <form>
+          <div class="form-group">
+            <label for="cityName">City Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="cityInput"
+              aria-describedby="cityName"
+            />
+          </div>
+          <div class="form-group">
+            <label for="Country">Country</label>
+            <input
+              type="text"
+              class="form-control"
+              id="countryInput"
+              aria-describedby="Country"
+            />
+            <small id="emailHelp" class="form-text text-muted"
+              >Use first two letter of your country (ISO-3166 Formate) name or
+              use short code of your country name</small
+            >
+          </div>
+
+          <button type="submit" class="btn btn-primary">Get Weather</button>
+        </form>
+      </div>
+      <!-- .jumbotron -->
+      <div class="card">
+        <div class="card-header text-center">
+          <p id="w-city">City</p>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <img src="#" id="w-icon" alt="icon" />
+              <p id="w-feels"></p>
+            </li>
+            <li class="list-group-item">
+              <p id="w-temp"></p>
+            </li>
+            <li class="list-group-item">
+              <p id="w-humidity"></p>
+            </li>
+            <li class="list-group-item">
+              <p id="w-pressure"></p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- .card -->
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
