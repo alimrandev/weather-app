@@ -16,7 +16,31 @@ class Weather {
   }
 }
 
-const weather = new Weather('chittagong', 'bd');
+class Storage {
+  static getData() {
+    let city = '';
+    let country = '';
+    if (
+      localStorage.getItem('city') === null ||
+      localStorage.getItem('country') === null
+    ) {
+      city = 'chittagong';
+      country = 'bd';
+    } else {
+      city = localStorage.getItem('city');
+      country = localStorage.getItem('country');
+    }
+    return {
+      city,
+      country,
+    };
+  }
+
+  static setData(city, country) {
+    localStorage.setItem('city', city);
+    localStorage.setItem('country', country);
+  }
+}
 
 class Ui {
   constructor() {
@@ -33,7 +57,6 @@ class Ui {
     weather: { icon, main },
   }) {
     const url = Ui.iconUrl(icon);
-    console.log(url);
     this.city.textContent = city;
     this.icon.setAttribute('src', url);
     this.temp.textContent = `Temperature(Cel) : ${temp}`;
@@ -44,7 +67,55 @@ class Ui {
   static iconUrl(icon) {
     return `http://openweathermap.org/img/wn/${icon}.png`;
   }
+
+  clearFields() {
+    const city = (document.getElementById('cityInput').value = '');
+    const country = (document.getElementById('countryInput').value = '');
+  }
+  showAlert(msgs, className) {
+    const parent = document.querySelector('.jumbotron');
+    const form = document.querySelector('form');
+    const div = document.createElement('div');
+    div.className = `alert alert-${className}`;
+    div.textContent = msgs;
+    parent.insertBefore(div, form);
+
+    setTimeout(() => {
+      document.querySelector('.alert').remove();
+    }, 2000);
+  }
 }
 
-const ui = new Ui();
-weather.getWeather().then((data) => ui.displayData(data));
+// add event listener
+document.querySelector('form').addEventListener('submit', (e) => {
+  const city = document.getElementById('cityInput').value;
+  const country = document.getElementById('countryInput').value;
+  if (city === '' || country === '') {
+    const ui = new Ui();
+    ui.showAlert('Please Insert a value', 'danger');
+  } else {
+    Storage.setData(city, country);
+    const weather = new Weather(city, country);
+    const ui = new Ui();
+    weather.getWeather().then((data) => ui.displayData(data));
+    ui.clearFields();
+  }
+  e.preventDefault();
+});
+
+function displayWeather() {
+  const { city, country } = Storage.getData();
+  const weather = new Weather(city, country);
+  const ui = new Ui();
+  weather
+    .getWeather()
+    .then((data) => ui.displayData(data))
+    .catch(() => {
+      ui.showAlert(
+        'Something wants wrong / not found. please check properly',
+        'danger'
+      );
+    });
+}
+
+displayWeather();
